@@ -150,8 +150,11 @@ extern struct ShaderUniforms_t
       if (s->extra_depth_scale != -1)
 			glUniform1f(s->extra_depth_scale, extra_depth_scale);
 
+// TODO: Find out why there is a crash inside of mesa when calling this exact function the 4th time
+#if !defined(HAVE_LIBNX)
 		if (s->sp_FOG_DENSITY!=-1)
 			glUniform1f( s->sp_FOG_DENSITY,fog_den_float);
+#endif
 
 		if (s->sp_FOG_COL_RAM!=-1)
 			glUniform3fv( s->sp_FOG_COL_RAM, 1, ps_FOG_COL_RAM);

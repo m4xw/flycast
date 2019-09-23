@@ -365,7 +365,11 @@ PipelineShader *GetProgram(
    	shader->pp_IgnoreTexA = pp_IgnoreTexA;
    	shader->pp_ShadInstr = pp_ShadInstr;
    	shader->pp_Offset = pp_Offset;
+#if defined(HAVE_LIBNX)
+   	shader->pp_FogCtrl = 2;
+#else
    	shader->pp_FogCtrl = pp_FogCtrl;
+#endif
    	shader->pp_Gouraud = pp_Gouraud;
    	shader->pp_BumpMap = pp_BumpMap;
    	shader->fog_clamping = fog_clamping;
