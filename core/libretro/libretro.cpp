@@ -6,6 +6,25 @@
 #include <sys/time.h>
 #endif
 
+#ifdef HAVE_LIBNX
+#include <stdlib.h>
+#include <string.h>
+
+// strdup seems to be missing on the dkp toolchain
+// TODO: Investigate more
+char* strdup(const char *str)
+{
+	size_t size = strlen(str) + 1;
+	char *copy;
+
+	if ((copy = malloc(size)) == NULL)
+		return(NULL);
+	(void)memcpy(copy, str, size);
+	return(copy);
+}
+
+#endif
+
 #include <sys/stat.h>
 #include <file/file_path.h>
 

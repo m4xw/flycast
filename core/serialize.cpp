@@ -197,10 +197,10 @@ extern int maple_sched;
 //extern u32 dmacount;
 extern bool maple_ddt_pending_reset;
 
-
+#ifdef HAVE_MODEM
 //./core/hw/modem/modem.cpp
 extern int modem_sched;
-
+#endif
 
 
 //./core/hw/pvr/Renderer_if.o
@@ -1036,10 +1036,11 @@ bool dc_serialize(void **data, unsigned int *total_size)
 	LIBRETRO_S(i); // sch_list[time_sync].start
 	LIBRETRO_S(i); // sch_list[time_sync].end
 
+#ifdef HAVE_MODEM
     LIBRETRO_S(sch_list[modem_sched].tag) ;
     LIBRETRO_S(sch_list[modem_sched].start) ;
     LIBRETRO_S(sch_list[modem_sched].end) ;
-
+#endif
 
 	LIBRETRO_S(SCIF_SCFSR2);
 	LIBRETRO_S(SCIF_SCFRDR2);
@@ -1487,12 +1488,14 @@ bool dc_unserialize(void **data, unsigned int *total_size, size_t actual_data_si
 	LIBRETRO_US(dummy_int); // sch_list[time_sync].start
 	LIBRETRO_US(dummy_int); // sch_list[time_sync].end
 
+#ifdef HAVE_MODEM
 	if ( version >= V2 )
 	{
 		LIBRETRO_US(sch_list[modem_sched].tag) ;
 		LIBRETRO_US(sch_list[modem_sched].start) ;
 		LIBRETRO_US(sch_list[modem_sched].end) ;
 	}
+#endif
 
 	if (version < V3)
 	{
