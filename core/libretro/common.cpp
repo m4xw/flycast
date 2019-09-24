@@ -715,7 +715,7 @@ void __libnx_exception_handler(ThreadExceptionDump *ctx)
 
    signal_handler(0, &sig_info, (void*) &u_ctx);
 
-   void* handle = memalign(0x1000, sizeof(u64) * 64);
+   uint64_t handle[64] = { 0 };
 
    uint64_t *ptr = (uint64_t*)handle;
    ptr[0]  = m_ctx.regs[0]; /* x0 0  */
