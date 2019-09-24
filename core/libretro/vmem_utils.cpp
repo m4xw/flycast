@@ -75,8 +75,8 @@ bool mem_region_lock(void *start, size_t len)
 
 	Result rc;
 	
-	int setcount = len / PAGE_SIZE;
-	for(int i = 0; i < setcount; i++)
+	int permission_set_count = len / PAGE_SIZE;
+	for(int i = 0; i < permission_set_count; i++)
 	{
 		rc = svcSetMemoryPermission((void*)((uintptr_t)start - inpage + (i * PAGE_SIZE)), PAGE_SIZE, Perm_R);
 		if(R_FAILED(rc))
@@ -106,8 +106,8 @@ bool mem_region_unlock(void *start, size_t len)
         
 	Result rc;
 
-	int setcount = len / PAGE_SIZE;
-	for(int i = 0; i < setcount; i++)
+	int permission_set_count = len / PAGE_SIZE;
+	for(int i = 0; i < permission_set_count; i++)
 	{
 		rc = svcSetMemoryPermission((void*)((uintptr_t)start - inpage + (i * PAGE_SIZE)), PAGE_SIZE, Perm_Rw);
 		if(R_FAILED(rc))
