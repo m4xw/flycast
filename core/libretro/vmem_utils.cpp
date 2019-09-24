@@ -74,10 +74,15 @@ bool mem_region_lock(void *start, size_t len)
         len = (len + PAGE_SIZE) & (~(PAGE_SIZE-1));
 
 	Result rc;
-	rc = svcSetMemoryPermission((void*)((uintptr_t)start - inpage), len, Perm_R);
-	if(R_FAILED(rc))
+	
+	int setcount = len / PAGE_SIZE;
+	for(int i = 0; i < setcount; i++)
 	{
-		printf("Failed to SetPerm Perm_R on %p len 0x%x rc 0x%x\n", (void*)((uintptr_t)start - inpage), len, rc);
+		rc = svcSetMemoryPermission((void*)((uintptr_t)start - inpage + (i * PAGE_SIZE)), PAGE_SIZE, Perm_R);
+		if(R_FAILED(rc))
+		{
+			printf("Failed to SetPerm Perm_R on %p len 0x%x rc 0x%x\n", (void*)((uintptr_t)start - inpage + (i * PAGE_SIZE)), PAGE_SIZE, rc);
+		}
 	}
 #else
 	if (mprotect((u8*)start - inpage, len + inpage, PROT_READ))
@@ -100,10 +105,15 @@ bool mem_region_unlock(void *start, size_t len)
         len = (len + PAGE_SIZE) & (~(PAGE_SIZE-1));
         
 	Result rc;
-	rc = svcSetMemoryPermission((void*)((uintptr_t)start - inpage), len, Perm_Rw);
-	if(R_FAILED(rc))
+
+	int setcount = len / PAGE_SIZE;
+	for(int i = 0; i < setcount; i++)
 	{
-		printf("Failed to SetPerm Perm_Rw on %p len 0x%x rc 0x%x\n", (void*)((uintptr_t)start - inpage), len, rc);
+		rc = svcSetMemoryPermission((void*)((uintptr_t)start - inpage + (i * PAGE_SIZE)), PAGE_SIZE, Perm_Rw);
+		if(R_FAILED(rc))
+		{
+			printf("Failed to SetPerm Perm_Rw on %p len 0x%x rc 0x%x\n", (void*)((uintptr_t)start - inpage + (i * PAGE_SIZE)), PAGE_SIZE, rc);
+		}
 	}
 #else
 	if (mprotect((u8*)start - inpage, len + inpage, PROT_READ | PROT_WRITE))
