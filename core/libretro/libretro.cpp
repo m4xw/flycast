@@ -9,6 +9,7 @@
 #ifdef HAVE_LIBNX
 #include <stdlib.h>
 #include <string.h>
+#include <switch.h>
 
 // strdup seems to be missing on the dkp toolchain
 // TODO: Investigate more
@@ -3102,7 +3103,11 @@ void os_DebugBreak(void)
 {
 	ERROR_LOG(COMMON, "DEBUGBREAK!");
    //exit(-1);
+#ifdef HAVE_LIBNX
+   svcExitProcess();
+#else
    __builtin_trap();
+#endif
 }
 
 static bool retro_set_eject_state(bool ejected)

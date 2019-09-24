@@ -370,7 +370,8 @@ static void signal_handler(int sn, siginfo_t * si, void *segfault_ctx)
    else
    {
    	ERROR_LOG(COMMON, "SIGSEGV @ %zx ... %p -> was not in vram (dyna code %d)", ctx.pc, si->si_addr, dyna_cde);
-      svcExitProcess();
+   	die("segfault");
+   	signal(SIGSEGV, SIG_DFL);
    }
 }
 #endif
