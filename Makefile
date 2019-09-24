@@ -372,6 +372,7 @@ else ifeq ($(platform), libnx)
    HAVE_MODEM = 0
    HAVE_LTCG = 0
    NO_NVMEM = 1
+   THREADED_RENDERING_DEFAULT = 1
    # stubs
    SOURCES_C += $(CORE_DIR)/core/deps/switch/stubs.c
 #######################################
