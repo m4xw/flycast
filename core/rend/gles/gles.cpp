@@ -86,12 +86,6 @@ void main() \n\
 	vtx_offs=in_offs; \n\
 	vtx_uv=in_uv; \n\
 	highp vec4 vpos = in_pos; \n\
-	if (vpos.z < 0.0 || vpos.z > 3.4e37) \n\
-	{ \n\
-	   gl_Position = vec4(0.0, 0.0, 1.0, 1.0 / vpos.z); \n\
-	   return; \n\
-	} \n\
-	\n\
 	vpos.w = extra_depth_scale / vpos.z; \n\
 #if TARGET_GL != GLES2 \n\
    vpos.z = vpos.w; \n\
