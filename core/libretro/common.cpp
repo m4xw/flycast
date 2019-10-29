@@ -301,6 +301,10 @@ static void sigill_handler(int sn, siginfo_t * si, void *segfault_ctx)
    defined(__FreeBSD__) || defined(__DragonFly__) || defined(HAVE_LIBNX)
 //#define LOG_SIGHANDLER
 
+#ifdef HAVE_LIBNX
+extern "C" char __start__;
+#endif // HAVE_LIBNX
+
 static void signal_handler(int sn, siginfo_t * si, void *segfault_ctx)
 {
    rei_host_context_t ctx;
@@ -370,6 +374,12 @@ static void signal_handler(int sn, siginfo_t * si, void *segfault_ctx)
    else
    {
    	ERROR_LOG(COMMON, "SIGSEGV @ %zx ... %p -> was not in vram (dyna code %d)", ctx.pc, si->si_addr, dyna_cde);
+#ifdef HAVE_LIBNX
+    MemoryInfo meminfo;
+    u32 pageinfo;
+    svcQueryMemory(&meminfo, &pageinfo, (u64)&__start__);
+   	ERROR_LOG(COMMON, ".text base: %p", meminfo.addr);
+#endif // HAVE_LIBNX
    	die("segfault");
    	signal(SIGSEGV, SIG_DFL);
    }
