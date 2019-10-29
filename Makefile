@@ -369,7 +369,7 @@ else ifeq ($(platform), libnx)
    WITH_DYNAREC=arm64
    HAVE_GENERIC_JIT = 0
    STATIC_LINKING = 1
-   HAVE_MODEM = 0
+   HAVE_MODEM = 1
    HAVE_LTCG = 0
    NO_NVMEM = 1
    THREADED_RENDERING_DEFAULT = 1

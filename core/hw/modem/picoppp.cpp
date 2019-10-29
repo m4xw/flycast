@@ -173,7 +173,7 @@ void set_tcp_nodelay(sock_t fd)
 #if defined(_WIN32)
    struct protoent *tcp_proto = getprotobyname("TCP");
    setsockopt(fd, tcp_proto->p_proto, TCP_NODELAY, (const char *)&optval, optlen);
-#elif !defined(__APPLE__) && !defined(__FreeBSD__) && !defined(__NetBSD__) && !defined(__HAIKU__)
+#elif !defined(__APPLE__) && !defined(__FreeBSD__) && !defined(__NetBSD__) && !defined(__HAIKU__) && !defined(HAVE_LIBNX)
    setsockopt(fd, SOL_TCP, TCP_NODELAY, (const void *)&optval, optlen);
 #else
    struct protoent *tcp_proto = getprotobyname("TCP");
@@ -783,7 +783,11 @@ static void *pico_thread_func(void *)
     	read_native_sockets();
     	pico_stack_tick();
     	check_dns_entries();
+#ifdef HAVE_LIBNX
+    	svcSleepThread(1000000);
+#else
     	usleep(1000);
+#endif // HAVE_LIBNX
     }
 
     for (auto it = tcp_listening_sockets.begin(); it != tcp_listening_sockets.end(); it++)
